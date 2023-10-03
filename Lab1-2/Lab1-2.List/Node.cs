@@ -10,7 +10,7 @@ public class Node<T> : ICloneable
     public T Value { get; set; }
     public Node<T>? Next { get; set; }
 
-    public object Clone() 
+    public object Clone()
     {
         return new Node<T>(Value) { Next = (Node<T>?)Next?.Clone() };
     }

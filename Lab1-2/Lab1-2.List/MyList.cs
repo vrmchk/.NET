@@ -6,13 +6,6 @@ public class MyList<T> : IList<T>, ICloneable
 {
     private Node<T>? _head;
 
-    private MyList(Node<T>? head)
-    {
-        _head = head;
-    }
-
-    public MyList() { }
-
     public int Count { get; private set; }
     public bool IsReadOnly => false;
     private bool ShouldNotify => CollectionChanged != null;
@@ -97,16 +90,7 @@ public class MyList<T> : IList<T>, ICloneable
 
     public bool Contains(T item)
     {
-        var current = _head;
-        while (current != null)
-        {
-            if (current.Value.Equals(item))
-                return true;
-
-            current = current.Next;
-        }
-
-        return false;
+        return IndexOf(item) >= 0;
     }
 
     public void CopyTo(T[] array, int arrayIndex)
@@ -134,7 +118,7 @@ public class MyList<T> : IList<T>, ICloneable
         Node<T>? previous = null;
         while (current != null)
         {
-            if (current.Value.Equals(item))
+            if (current.Value != null && current.Value.Equals(item))
             {
                 if (!ShouldNotify)
                 {
@@ -162,7 +146,7 @@ public class MyList<T> : IList<T>, ICloneable
         var index = 0;
         while (current != null)
         {
-            if (current.Value.Equals(item))
+            if (current.Value != null && current.Value.Equals(item))
                 return index;
 
             current = current.Next;
@@ -238,7 +222,7 @@ public class MyList<T> : IList<T>, ICloneable
 
     public object Clone()
     {
-        return new MyList<T>((Node<T>?)_head?.Clone());
+        return new MyList<T> { _head = (Node<T>?)_head?.Clone() };
     }
 
     private Node<T> GetNode(int index)

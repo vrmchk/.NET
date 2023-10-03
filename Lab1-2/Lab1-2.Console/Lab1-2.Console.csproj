@@ -16,4 +16,5 @@
       <ProjectReference Include="..\Lab1-2.List\Lab1-2.List.csproj" />
     </ItemGroup>
 
+
 </Project>
