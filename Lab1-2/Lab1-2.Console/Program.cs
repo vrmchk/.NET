@@ -13,8 +13,8 @@ internal static class Program
 
     public static void Main(string[] args)
     {
-        BenchmarkRunner.Run<ListsBenchmark>();
-        
+        //BenchmarkRunner.Run<ListsBenchmark>();
+
         var size = 10;
         var batchSize = 5;
         var list = new MyList<int>();

@@ -6,6 +6,16 @@ public class MyList<T> : IList<T>, ICloneable
 {
     private Node<T>? _head;
 
+    public MyList() { }
+
+    public MyList(IEnumerable<T> enumerable)
+    {
+        foreach (var item in enumerable)
+        {
+            Add(item);
+        }
+    }
+
     public int Count { get; private set; }
     public bool IsReadOnly => false;
     private bool ShouldNotify => CollectionChanged != null;
@@ -193,6 +203,7 @@ public class MyList<T> : IList<T>, ICloneable
 
     public void RemoveAt(int index)
     {
+        ValidateIndex(index);
         var previous = index != 0 ? GetNode(index - 1) : null;
         var toRemove = previous?.Next ?? _head;
         if (toRemove == null)
@@ -227,8 +238,7 @@ public class MyList<T> : IList<T>, ICloneable
 
     private Node<T> GetNode(int index)
     {
-        if (index < 0 || index >= Count)
-            throw new IndexOutOfRangeException();
+        ValidateIndex(index);
 
         var current = _head;
         for (int i = 0; i < index; i++)
@@ -267,5 +277,11 @@ public class MyList<T> : IList<T>, ICloneable
             OldCollection = oldCollection ?? new List<T>(),
             NewCollection = this
         });
+    }
+
+    private void ValidateIndex(int index)
+    {
+        if (index < 0 || index >= Count)
+            throw new IndexOutOfRangeException();
     }
 }
